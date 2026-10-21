@@ -6,6 +6,8 @@
 
 ## Créer les issues et le Project
 
+Les 145 issues existent déjà (créées le 21 octobre 2026). Lancer le script crée le Project « Voiture panneaux » et y ajoute toutes les issues.
+
 ```
 gh auth login
 gh auth refresh -s project
