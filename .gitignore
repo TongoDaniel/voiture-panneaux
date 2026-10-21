@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+# Données et modèles lourds (à garder sur Drive ou Roboflow)
+data/
+datasets/
+captures/
+runs/
+*.pt
+!pc/modeles/.gitkeep
+# Divers
+.DS_Store
+Thumbs.db
