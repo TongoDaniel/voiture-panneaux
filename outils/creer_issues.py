@@ -6,7 +6,8 @@ Prérequis : GitHub CLI installé et connecté avec le droit « project » :
 Lancement depuis la racine du dépôt :
     python outils/creer_issues.py            # crée tout
     python outils/creer_issues.py --essai    # affiche sans rien créer
-Le script peut être relancé : il saute les issues dont le titre existe déjà.
+Le script peut être relancé : il ne recrée pas une issue dont le titre existe déjà,
+mais l'ajoute au Project si elle n'y est pas.
 """
 import json, pathlib, subprocess, sys
 
@@ -31,10 +32,10 @@ for e in etapes:
 for nom, couleur in labels.items():
     gh("label", "create", nom, "--repo", DEPOT, "--color", couleur, "--force")
 
-existantes = set()
+existantes = {}
 if not ESSAI:
-    sortie = gh("issue", "list", "--repo", DEPOT, "--state", "all", "--limit", "500", "--json", "title", capture=True)
-    existantes = {i["title"] for i in json.loads(sortie or "[]")}
+    sortie = gh("issue", "list", "--repo", DEPOT, "--state", "all", "--limit", "500", "--json", "title,url", capture=True)
+    existantes = {i["title"]: i["url"] for i in json.loads(sortie or "[]")}
 
 projet = None
 if not ESSAI:
@@ -50,6 +51,9 @@ for e in etapes:
     for code, label in variantes:
         titre = f"[{e['id']}·{code}] {e['titre']}"
         if titre in existantes:
+            # Issue déjà créée : on s'assure seulement qu'elle est dans le Project.
+            if projet:
+                gh("project", "item-add", str(projet), "--owner", PROPRIO, "--url", existantes[titre])
             continue
         corps = (f"**Phase :** {e['phase']} · {e['phaseNom']}\n\n"
                  f"**Fonction obtenue :** {e['titre']}\n\n"
