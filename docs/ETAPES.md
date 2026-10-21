@@ -15,7 +15,7 @@ Colonnes : **L** = voiture de Lein, **J** = voiture de Jephte, **É** = équipe 
 |  |  | ☐ | **P0-05** Dépôt cloné par Jephte | Jephte a poussé un commit visible sur GitHub. |
 |  |  | ☐ | **P0-06** Créneau de point hebdo fixé | Un rendez-vous récurrent est dans vos deux agendas. |
 |  |  | ☐ | **P0-07** Réaction de chaque panneau définie | docs/perimetre.md dit quoi faire pour STOP, 30, gauche, droite. |
-|  |  | ☐ | **P0-08** Architecture choisie (S3-CAM seule ou caméra + ESP32) | Le choix et la raison sont dans docs/perimetre.md. |
+|  |  | ☐ | **P0-08** Architecture choisie (Freenove ESP32-WROVER CAM seule) | Le choix et la raison sont dans docs/perimetre.md. |
 
 ## P1 · Matériel et alimentation
 
@@ -51,10 +51,10 @@ Colonnes : **L** = voiture de Lein, **J** = voiture de Jephte, **É** = équipe 
 
 | L | J | É | Étape | Test |
 | --- | --- | --- | --- | --- |
-| ☐ | ☐ |  | **P3-01** Cartes ESP32 installées dans l'IDE | Un sketch qui écrit « hello » toutes les secondes s'affiche dans le moniteur série de l'ESP32. |
-| ☐ | ☐ |  | **P3-02** Diviseur de tension monté (1 kΩ / 2 kΩ) | Avec 5 V en entrée, le multimètre lit environ 3,3 V au point milieu. |
+| ☐ | ☐ |  | **P3-01** Carte ESP32-WROVER CAM programmable depuis l'IDE | Carte « ESP32 Wrover Module » choisie, PSRAM activée : un sketch qui écrit « hello » chaque seconde s'affiche dans le moniteur série (USB-C). |
+| ☐ | ☐ |  | **P3-02** Diviseur de tension monté (1 kΩ / 2 kΩ) | Avec 5 V sur la broche D3 de l'Uno, le multimètre lit environ 3,3 V au point milieu, relié au GPIO 13 de l'ESP32. |
 | ☐ | ☐ |  | **P3-03** GND communs Arduino, L298N, ESP32 | Le multimètre en mode continuité bipe entre les trois GND. |
-| ☐ | ☐ |  | **P3-04** ESP32 envoie un message à l'Arduino | Le moniteur de l'Arduino affiche « PING » reçu de l'ESP32. |
+| ☐ | ☐ |  | **P3-04** ESP32 envoie un message à l'Arduino | Serial2 sur GPIO 14 (TX) et 13 (RX) : le moniteur de l'Arduino affiche « PING » reçu sur D2. |
 | ☐ | ☐ |  | **P3-05** Arduino répond à l'ESP32 | Le moniteur de l'ESP32 affiche « PONG ». |
 | ☐ | ☐ |  | **P3-06** Protocole de commande lu par l'Arduino | Une chaîne comme F150 est découpée en lettre F et vitesse 150 (affichées). |
 | ☐ | ☐ |  | **P3-07** Commande ESP32 qui fait bouger la voiture | F150 tapé côté ESP32 fait avancer la voiture. |
@@ -75,12 +75,13 @@ Colonnes : **L** = voiture de Lein, **J** = voiture de Jephte, **É** = équipe 
 
 | L | J | É | Étape | Test |
 | --- | --- | --- | --- | --- |
-| ☐ | ☐ |  | **P5-01** Caméra alimentée par le buck 5 V | Le moniteur série ne montre aucun redémarrage en boucle pendant 2 min. |
-| ☐ | ☐ |  | **P5-02** Image de la caméra dans le navigateur | L'exemple CameraWebServer affiche une image nette. |
-| ☐ | ☐ |  | **P5-03** Flux lu par Python et OpenCV | Une fenêtre OpenCV affiche le flux en direct. |
-| ☐ | ☐ |  | **P5-04** Fps et délai mesurés | Les deux chiffres sont notés dans docs/mesures.md (filmer un chronomètre). |
-| ☐ | ☐ |  | **P5-05** Caméra fixée sur la voiture | Hauteur et angle ne bougent plus quand la voiture roule. |
-| ☐ | ☐ |  | **P5-06** Flux et commandes en même temps | Tu pilotes au clavier tout en voyant le flux, sans coupure. |
+| ☐ | ☐ |  | **P5-01** Carte caméra alimentée par le buck 5 V | Buck branché sur la broche 5V de la carte, sans USB : aucun redémarrage en boucle pendant 2 min. |
+| ☐ | ☐ |  | **P5-02** Image de la caméra dans le navigateur | L'exemple CameraWebServer avec CAMERA_MODEL_WROVER_KIT affiche une image nette. |
+| ☐ | ☐ |  | **P5-03** Capteur de la caméra identifié | Le modèle (OV2640, OV3660, GC0308…) et s'il fait du JPEG matériel sont notés dans docs/mesures.md. |
+| ☐ | ☐ |  | **P5-04** Flux lu par Python et OpenCV | Une fenêtre OpenCV affiche le flux en direct. |
+| ☐ | ☐ |  | **P5-05** Fps et délai mesurés | Les deux chiffres sont notés dans docs/mesures.md (filmer un chronomètre). |
+| ☐ | ☐ |  | **P5-06** Caméra fixée sur la voiture | Hauteur et angle ne bougent plus quand la voiture roule. |
+| ☐ | ☐ |  | **P5-07** Flux et commandes en même temps | La même carte diffuse le flux et relaie les commandes : tu pilotes au clavier en voyant le flux, sans coupure. |
 
 ## P6 · Bases de l'IA
 
