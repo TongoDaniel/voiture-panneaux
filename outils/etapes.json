@@ -59,7 +59,7 @@
   "id": "P0-08",
   "phase": "P0",
   "phaseNom": "Cadrage",
-  "titre": "Architecture choisie (S3-CAM seule ou caméra + ESP32)",
+  "titre": "Architecture choisie (Freenove ESP32-WROVER CAM seule)",
   "test": "Le choix et la raison sont dans docs/perimetre.md.",
   "portee": "E"
  },
@@ -227,8 +227,8 @@
   "id": "P3-01",
   "phase": "P3",
   "phaseNom": "Liaison ESP32 et Arduino",
-  "titre": "Cartes ESP32 installées dans l'IDE",
-  "test": "Un sketch qui écrit « hello » toutes les secondes s'affiche dans le moniteur série de l'ESP32.",
+  "titre": "Carte ESP32-WROVER CAM programmable depuis l'IDE",
+  "test": "Carte « ESP32 Wrover Module » choisie, PSRAM activée : un sketch qui écrit « hello » chaque seconde s'affiche dans le moniteur série (USB-C).",
   "portee": "V"
  },
  {
@@ -236,7 +236,7 @@
   "phase": "P3",
   "phaseNom": "Liaison ESP32 et Arduino",
   "titre": "Diviseur de tension monté (1 kΩ / 2 kΩ)",
-  "test": "Avec 5 V en entrée, le multimètre lit environ 3,3 V au point milieu.",
+  "test": "Avec 5 V sur la broche D3 de l'Uno, le multimètre lit environ 3,3 V au point milieu, relié au GPIO 13 de l'ESP32.",
   "portee": "V"
  },
  {
@@ -252,7 +252,7 @@
   "phase": "P3",
   "phaseNom": "Liaison ESP32 et Arduino",
   "titre": "ESP32 envoie un message à l'Arduino",
-  "test": "Le moniteur de l'Arduino affiche « PING » reçu de l'ESP32.",
+  "test": "Serial2 sur GPIO 14 (TX) et 13 (RX) : le moniteur de l'Arduino affiche « PING » reçu sur D2.",
   "portee": "V"
  },
  {
@@ -339,8 +339,8 @@
   "id": "P5-01",
   "phase": "P5",
   "phaseNom": "Caméra",
-  "titre": "Caméra alimentée par le buck 5 V",
-  "test": "Le moniteur série ne montre aucun redémarrage en boucle pendant 2 min.",
+  "titre": "Carte caméra alimentée par le buck 5 V",
+  "test": "Buck branché sur la broche 5V de la carte, sans USB : aucun redémarrage en boucle pendant 2 min.",
   "portee": "V"
  },
  {
@@ -348,11 +348,19 @@
   "phase": "P5",
   "phaseNom": "Caméra",
   "titre": "Image de la caméra dans le navigateur",
-  "test": "L'exemple CameraWebServer affiche une image nette.",
+  "test": "L'exemple CameraWebServer avec CAMERA_MODEL_WROVER_KIT affiche une image nette.",
   "portee": "V"
  },
  {
   "id": "P5-03",
+  "phase": "P5",
+  "phaseNom": "Caméra",
+  "titre": "Capteur de la caméra identifié",
+  "test": "Le modèle (OV2640, OV3660, GC0308…) et s'il fait du JPEG matériel sont notés dans docs/mesures.md.",
+  "portee": "V"
+ },
+ {
+  "id": "P5-04",
   "phase": "P5",
   "phaseNom": "Caméra",
   "titre": "Flux lu par Python et OpenCV",
@@ -360,7 +368,7 @@
   "portee": "V"
  },
  {
-  "id": "P5-04",
+  "id": "P5-05",
   "phase": "P5",
   "phaseNom": "Caméra",
   "titre": "Fps et délai mesurés",
@@ -368,7 +376,7 @@
   "portee": "V"
  },
  {
-  "id": "P5-05",
+  "id": "P5-06",
   "phase": "P5",
   "phaseNom": "Caméra",
   "titre": "Caméra fixée sur la voiture",
@@ -376,11 +384,11 @@
   "portee": "V"
  },
  {
-  "id": "P5-06",
+  "id": "P5-07",
   "phase": "P5",
   "phaseNom": "Caméra",
   "titre": "Flux et commandes en même temps",
-  "test": "Tu pilotes au clavier tout en voyant le flux, sans coupure.",
+  "test": "La même carte diffuse le flux et relaie les commandes : tu pilotes au clavier en voyant le flux, sans coupure.",
   "portee": "V"
  },
  {
