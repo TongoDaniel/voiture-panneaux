@@ -6,6 +6,7 @@
 //    T = séquence de test (chaque mouvement 2 s, puis stop)
 // =====================================================================
 
+
 // --- Broches L298N -> Arduino (voir README) ---------------------------
 const int ENA = 5;   // PWM : vitesse côté gauche  (broche marquée ~)
 const int IN1 = 4;   // sens côté gauche
@@ -18,6 +19,15 @@ const int ENB = 6;   // PWM : vitesse côté droit   (broche marquée ~)
 // Si la voiture dévie en ligne droite (P2-14), baisse le côté le plus rapide.
 int vitesseGauche = 180;
 int vitesseDroite = 180;
+
+// P2-14 — si la voiture tire d'un côté, ralentis le côté le plus rapide.
+// Ex. elle part vers la droite -> la gauche est trop rapide -> reductionGauche = 10.
+int reductionGauche = 0;
+int reductionDroite = 0;
+
+// P2-14 — true = la voiture roule seule 3 s au démarrage. Remettre false après le test.
+const bool TEST_LIGNE_DROITE = false;
+
 
 // --- Sens de chaque côté ----------------------------------------------
 // Un pont en H choisit le sens avec deux entrées opposées :
@@ -70,10 +80,12 @@ void sequenceTest() {
 }
 
 void reglerVitesse(int v) {
-  vitesseGauche = v;
-  vitesseDroite = v;
-  Serial.print("Vitesse = ");
-  Serial.println(v);
+  vitesseGauche = constrain(v - reductionGauche, 0, 255);
+  vitesseDroite = constrain(v - reductionDroite, 0, 255);
+  Serial.print("Vitesse gauche = ");
+  Serial.print(vitesseGauche);
+  Serial.print(", droite = ");
+  Serial.println(vitesseDroite);
 }
 
 // P2-15 — traduit une lettre en mouvement
@@ -105,6 +117,14 @@ void setup() {
 
   Serial.begin(9600);
   Serial.println("Pret. F B L R S, 1 2 3 (vitesse), T (test)");
+  reglerVitesse(180);           // applique la correction dès le départ
+
+  if (TEST_LIGNE_DROITE) {
+    delay(5000);                // 5 s pour poser la voiture sur la ligne
+    avancer();
+    delay(9000);                // durée du trajet (à ajuster pour faire 2 m)
+    stop();
+  }
 }
 
 void loop() {
